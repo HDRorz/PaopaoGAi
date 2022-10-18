@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="354e57b7-57f7-41c3-8b3a-0f37ef57117b" name="Default Changelist" comment="" />
+    <list default="true" id="354e57b7-57f7-41c3-8b3a-0f37ef57117b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,7 +20,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
   <component name="ProjectId" id="2GD6wPTp1Ra6wGRBXc9cvp8KfUS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -23,6 +32,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/main.py" />
   </component>
   <component name="RunManager">
@@ -74,38 +84,42 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1060" y="455" key="FileChooserDialogImpl/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1665931838902" />
-    <state width="2539" height="492" key="GridCell.Tab.0.bottom" timestamp="1666023799547">
+    <state width="2539" height="492" key="GridCell.Tab.0.bottom" timestamp="1666110511534">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="492" key="GridCell.Tab.0.bottom/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666023799547" />
-    <state width="2539" height="492" key="GridCell.Tab.0.center" timestamp="1666023799547">
+    <state width="2539" height="492" key="GridCell.Tab.0.bottom/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666110511534" />
+    <state width="2539" height="492" key="GridCell.Tab.0.center" timestamp="1666110511534">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="492" key="GridCell.Tab.0.center/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666023799547" />
-    <state width="2539" height="492" key="GridCell.Tab.0.left" timestamp="1666023799547">
+    <state width="2539" height="492" key="GridCell.Tab.0.center/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666110511534" />
+    <state width="2539" height="492" key="GridCell.Tab.0.left" timestamp="1666110511534">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="492" key="GridCell.Tab.0.left/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666023799547" />
-    <state width="2539" height="492" key="GridCell.Tab.0.right" timestamp="1666023799547">
+    <state width="2539" height="492" key="GridCell.Tab.0.left/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666110511534" />
+    <state width="2539" height="492" key="GridCell.Tab.0.right" timestamp="1666110511534">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="492" key="GridCell.Tab.0.right/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666023799547" />
-    <state width="2539" height="492" key="GridCell.Tab.1.bottom" timestamp="1666023799498">
+    <state width="2539" height="492" key="GridCell.Tab.0.right/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666110511534" />
+    <state width="2539" height="492" key="GridCell.Tab.1.bottom" timestamp="1666110511484">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="492" key="GridCell.Tab.1.bottom/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666023799498" />
-    <state width="2539" height="492" key="GridCell.Tab.1.center" timestamp="1666023799498">
+    <state width="2539" height="492" key="GridCell.Tab.1.bottom/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666110511484" />
+    <state width="2539" height="492" key="GridCell.Tab.1.center" timestamp="1666110511484">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="492" key="GridCell.Tab.1.center/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666023799498" />
-    <state width="2539" height="492" key="GridCell.Tab.1.left" timestamp="1666023799498">
+    <state width="2539" height="492" key="GridCell.Tab.1.center/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666110511484" />
+    <state width="2539" height="492" key="GridCell.Tab.1.left" timestamp="1666110511484">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="492" key="GridCell.Tab.1.left/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666023799498" />
-    <state width="2539" height="492" key="GridCell.Tab.1.right" timestamp="1666023799498">
+    <state width="2539" height="492" key="GridCell.Tab.1.left/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666110511484" />
+    <state width="2539" height="492" key="GridCell.Tab.1.right" timestamp="1666110511484">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="492" key="GridCell.Tab.1.right/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666023799498" />
+    <state width="2539" height="492" key="GridCell.Tab.1.right/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666110511484" />
+    <state width="1288" height="708" key="XDebugger.FullValuePopup" timestamp="1666100927915">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1288" height="708" key="XDebugger.FullValuePopup/0.0.2560.1400/2560.-887.1440.2520@0.0.2560.1400" timestamp="1666100927915" />
     <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1665932409438">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -123,10 +137,19 @@
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="arr[12][16]" language="Python" />
+        <watch expression="self.q_net(states).gather(1, actions)" language="Python" />
         <watch expression="np.random.randint(10)" language="Python" />
         <watch expression="req[&quot;gameMap&quot;][&quot;mapRows&quot;]" language="Python" />
         <watch expression="np.concatenate((maplist, selfpos))" language="Python" />
+        <watch expression="actions.argmax().item()" language="Python" />
+        <watch expression="self.q_net(states).size()" language="Python" />
+        <watch expression="actions.size()" language="Python" />
+        <watch expression="transition_dict['actions']" language="Python" />
+        <watch expression="transition_dict['states']" language="Python" />
+        <watch expression="self.q_net(states).gather(1, actions)" language="Python" />
+        <watch expression="self.target_q_net(next_states).max(1)[0]" language="Python" />
+        <watch expression="torch.tensor(transition_dict['states'], dtype=torch.float).size()" language="Python" />
+        <watch expression="self.q_net(torch.tensor(transition_dict['states'], dtype=torch.float))" language="Python" />
       </configuration>
     </watches-manager>
   </component>

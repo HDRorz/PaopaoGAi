@@ -50,17 +50,19 @@ def action():
     booms = getBooms(reqbody)
     explodes = getExplodes(reqbody)
     magicBoxes = getMagicBoxes(reqbody)
-    state = np.concatenate((maplist, selfpos, booms, explodes, magicBoxes))
+    #state = np.concatenate((maplist, selfpos, booms, explodes, magicBoxes))
+    state = np.array([maplist, selfpos, booms, explodes, magicBoxes])
     action = agent.take_action(state)
-    moveType = MoveTypeList[action % 5]
-    releaseBoom = action % 2 == 1
-    print(f'action:{action},moveType={moveType},releaseBoom:{releaseBoom}')
+    actionval = int(action)
+    moveType = MoveTypeList[actionval % 5]
+    releaseBoom = actionval % 2 == 1
+    print(f'action:{actionval},moveType={moveType},releaseBoom:{releaseBoom}')
 
     global laststate
     global lastaction
     global lastscore
     if laststate.__len__() > 0:
-        replay_buffer.add(laststate, lastaction, lastscore - score, state, False)
+        replay_buffer.add(laststate, lastaction, score - lastscore, state, False)
     laststate = state
     lastaction = action
     lastscore = score
