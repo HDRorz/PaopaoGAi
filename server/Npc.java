@@ -213,6 +213,9 @@ public class Npc extends Character {
   }
   
   public void longStopHandle() {
+	if (!"STOP".equals(moveType)) {
+      scoreChange(-50);
+	}
     int stopSteps = this.stopStepCount.incrementAndGet();
     if (stopSteps > 5) {
       System.out.println(this.npcUserInfo + "长时间停留同一位置不动，扣除100分！");
