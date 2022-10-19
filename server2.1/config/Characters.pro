@@ -1,0 +1,14 @@
+player=Player,img,x,y,w,h
+#配置文件格式:XXX=玩家图片,x,y,w,h
+playerOne=PlayerA,0,0,64,64
+playerTwo=PlayerB,100,100,50,60
+npc0=npc0,0,0,64,64
+npc1=npc1,0,0,64,64
+npc2=npc2,0,0,64,64
+npc3=npc2,0,0,64,64
+npc4=npc2,0,0,64,64
+npc5=npc2,0,0,64,64
+npc6=npc2,0,0,64,64
+npc7=npc2,0,0,64,64
+npc8=npc2,0,0,64,64
+npc9=npc2,0,0,64,64

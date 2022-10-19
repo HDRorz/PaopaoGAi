@@ -1,5 +1,4 @@
 import random
-import gym
 import numpy as np
 import collections
 
@@ -35,11 +34,11 @@ class Qnet(torch.nn.Module):
         #self.fc4 = torch.nn.Linear(5, 1)
 
         self.conv = nn.Sequential(
-            nn.Conv2d(5, hidden_dim, kernel_size=1, stride=4),
+            nn.Conv3d(5, hidden_dim, kernel_size=1, stride=4),
             nn.ReLU(),
-            nn.Conv2d(hidden_dim, hidden_dim * 2, kernel_size=1, stride=2),
+            nn.Conv3d(hidden_dim, hidden_dim * 2, kernel_size=1, stride=2),
             nn.ReLU(),
-            nn.Conv2d(hidden_dim * 2, hidden_dim * 2, kernel_size=1, stride=1),
+            nn.Conv3d(hidden_dim * 2, hidden_dim * 2, kernel_size=1, stride=1),
             nn.ReLU()
         )
         self.fc = nn.Sequential(
@@ -78,14 +77,17 @@ class DQN:
         self.device = device
 
     def take_action(self, state):  # epsilon-贪婪策略采取动作
+        if_rand = False
         if np.random.random() < self.epsilon:
             action = np.random.randint(self.action_dim)
+            if_rand = True
+            print(f'random, action={action}')
         else:
             x = torch.tensor([state], dtype=torch.float).to(self.device)
             action_values = self.q_net(x)
             action = action_values.argmax().item()
             #action = np.argmax(action_values.cpu().data.numpy())
-        return action
+        return if_rand, action
 
     def update(self, transition_dict):
         states = torch.tensor(transition_dict['states'], dtype=torch.float).to(self.device)
