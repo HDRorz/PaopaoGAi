@@ -1,3 +1,4 @@
+import pickle
 import random
 import numpy as np
 import collections
@@ -23,6 +24,16 @@ class ReplayBuffer:
 
     def size(self):  # 目前buffer中数据的数量
         return len(self.buffer)
+
+    def save(self):
+        f = open("buffer.pickle", "wb")
+        pickle.dump(self.buffer, f)
+        f.close()
+
+    def load(self):
+        f = open("buffer.pickle", "rb")
+        data = pickle.load(f)
+        self.buffer = data
 
 class Qnet(torch.nn.Module):
     ''' 只有一层隐藏层的Q网络 '''
@@ -111,4 +122,11 @@ class DQN:
             self.target_q_net.load_state_dict(
                 self.q_net.state_dict())  # 更新目标网络
         self.count += 1
+
+    def save(self):
+        torch.save(self.q_net.state_dict(), 'checkpoint/dqn_checkpoint_solved.pth')
+
+    def load(self):
+        self.q_net.load_state_dict(torch.load('checkpoint/dqn_checkpoint_solved.pth', map_location=self.device))
+        self.q_net.eval()
 

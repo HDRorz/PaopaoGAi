@@ -26,10 +26,13 @@ device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cp
 np.random.seed(0)
 torch.manual_seed(0)
 replay_buffer = ReplayBuffer(buffer_size)
+replay_buffer.load()
+
 state_dim = 17
 action_dim = 10
 agent = DQN(state_dim, hidden_dim, action_dim, lr, gamma, epsilon,
             target_update, device)
+agent.load()
 
 laststate = []
 lastaction = 0
@@ -94,16 +97,6 @@ def action():
     laststate = state
     lastaction = action
     lastscore = score
-    if replay_buffer.size() > minimal_size:
-        b_s, b_a, b_r, b_ns, b_d = replay_buffer.sample(batch_size)
-        transition_dict = {
-            'states': b_s,
-            'actions': b_a,
-            'next_states': b_ns,
-            'rewards': b_r,
-            'dones': b_d
-        }
-        agent.update(transition_dict)
     return {"moveType": moveType, "releaseBoom": releaseBoom}
 
 
@@ -115,11 +108,30 @@ def clear():
     laststate = []
     lastaction = 0
     lastscore = 0
+    for i in range(100):
+        b_s, b_a, b_r, b_ns, b_d = replay_buffer.sample(batch_size)
+        transition_dict = {
+            'states': b_s,
+            'actions': b_a,
+            'next_states': b_ns,
+            'rewards': b_r,
+            'dones': b_d
+        }
+        agent.update(transition_dict)
+    return "ok"
 
 
 @app.route("/save")
 def save():
-    torch.save(agent.q_net.state_dict(), 'checkpoint/dqn_checkpoint_solved.pth')
+    replay_buffer.save()
+    agent.save()
+    return "ok"
+
+@app.route("/setRandRate/<value>")
+def setRandRate(value):
+    agent.epsilon = float(value)
+    return str(type(agent.epsilon))
+
 
 
 if __name__ == "__main__":
