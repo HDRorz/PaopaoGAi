@@ -1,6 +1,61 @@
 import numpy as np
 
 
+def getState(req):
+    maplist = req["gameMap"]["mapList"]
+    rownum = req["gameMap"]["mapRows"]
+    colnum = req["gameMap"]["mapCols"]
+    arr = np.zeros((rownum, colnum, 6))
+    x = 0
+    y = 0
+    for maprow in maplist:
+        for cell in maprow:
+            arr[y][x][0] = int(cell[:1])
+            x = x + 1
+        y = y + 1
+        x = 0
+
+    self_y = int(req["slefLocationY"] / 64)
+    self_x = int(req["slefLocationX"] / 64)
+    arr[self_y][self_x][1] = 100
+
+    activeBooms = req["gameMap"]["activeBooms"]
+    for boom in activeBooms:
+        arr[boom["row"]][boom["col"]][2] = 1
+
+    activeExplodes = req["gameMap"]["activeExplodes"]
+    for explode in activeExplodes:
+        row = explode["row"]
+        col = explode["col"]
+        arr[explode["row"]][explode["col"]][3] = -100
+        if row > 0:
+            arr[explode["row"] - 1][explode["col"]][3] = -100
+        if row < rownum - 1:
+            arr[explode["row"] + 1][explode["col"]][3] = -100
+        if col > 0:
+            arr[explode["row"]][explode["col"] - 1][3] = -100
+        if col < colnum - 1:
+            arr[explode["row"]][explode["col"] + 1][3] = -100
+
+    activeMagicBoxes = req["gameMap"]["activeMagicBoxes"]
+    for magicBox in activeMagicBoxes:
+        arr[magicBox["row"]][magicBox["col"]][4] = 30
+
+    selfid = req["selfNpcId"]
+    activeNpcs = req["gameMap"]["activeNpcs"]
+    for npc in activeNpcs:
+        npcId = npc["npcId"]
+        npcrow = npc["row"]
+        npccol = npc["col"]
+        if npcId != selfid \
+                and npcrow >= 0\
+                and npcrow < rownum\
+                and npccol >= 0\
+                and npccol < colnum:
+            arr[npcrow][npccol][5] = 100
+    return arr
+
+
 def getMapList(req):
     maplist = req["gameMap"]["mapList"]
     rownum = req["gameMap"]["mapRows"]
@@ -86,7 +141,7 @@ def getNpcs(req):
     return arr
 
 
-def checkMove(req, mapList, moveType):
+def checkAction(req, mapList, moveType, releaseBoom):
     rownum = req["gameMap"]["mapRows"]
     colnum = req["gameMap"]["mapCols"]
     arr = np.zeros((rownum, colnum))
@@ -103,6 +158,15 @@ def checkMove(req, mapList, moveType):
     if moveType == "DOWN":
         next_y = y + 1
     if moveType == "STOP":
+        # 1/2概率不允许停顿
+        if np.random.randint(0, 2) == 0:
+            return True
+        return False
+
+    if releaseBoom:
+        # 2/3概率不允许发放泡泡
+        if np.random.randint(0, 2) > 0:
+            return True
         return False
 
     if next_x < 0 or next_x >= colnum:
@@ -110,7 +174,7 @@ def checkMove(req, mapList, moveType):
     if next_y < 0 or next_y >= rownum:
         return True
     nextitem = mapList[next_y][next_x]
-    if nextitem == 0 or nextitem == 2 or nextitem == 9:
+    if nextitem == 0 or nextitem == 2:
         return True
     return False
 

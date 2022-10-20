@@ -45,15 +45,15 @@ class Qnet(torch.nn.Module):
         #self.fc4 = torch.nn.Linear(5, 1)
 
         self.conv = nn.Sequential(
-            nn.Conv3d(5, hidden_dim, kernel_size=1, stride=4),
+            nn.Conv3d(5, hidden_dim, kernel_size=4, stride=1),
             nn.ReLU(),
-            nn.Conv3d(hidden_dim, hidden_dim * 2, kernel_size=1, stride=2),
+            nn.Conv3d(hidden_dim, hidden_dim * 2, kernel_size=2, stride=1),
             nn.ReLU(),
             nn.Conv3d(hidden_dim * 2, hidden_dim * 2, kernel_size=1, stride=1),
             nn.ReLU()
         )
         self.fc = nn.Sequential(
-            nn.Linear(1536, 512),
+            nn.Linear(59904, 512),
             nn.ReLU(),
             nn.Linear(512, action_dim)
         )

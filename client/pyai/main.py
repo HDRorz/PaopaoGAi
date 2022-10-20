@@ -16,7 +16,7 @@ lr = 2e-3
 num_episodes = 500
 hidden_dim = 128
 gamma = 0.98
-epsilon = 0.95
+epsilon = 0.8
 target_update = 10
 buffer_size = 10000
 minimal_size = 100
@@ -58,13 +58,14 @@ def action():
     magicBoxes = getMagicBoxes(reqbody)
     npcs = getNpcs(reqbody)
     #state = np.concatenate((maplist, selfpos, booms, explodes, magicBoxes))
-    cur_state = np.array([maplist, selfpos, booms, explodes, magicBoxes, npcs])
+    #cur_state = np.array([maplist, selfpos, booms, explodes, magicBoxes, npcs])
+    cur_state = getState(reqbody)
     state = []
     if len(laststate) > 0:
         state = laststate[1:]
         state.append(cur_state)
     else:
-        state = [cur_state, cur_state, cur_state,  cur_state, cur_state]
+        state = [cur_state, cur_state, cur_state, cur_state, cur_state]
 
     if_rand = True
     needCheck = True
@@ -76,7 +77,7 @@ def action():
         moveType = MoveTypeList[actionval % 5]
         releaseBoom = actionval % 2 == 1
         if if_rand:
-            needCheck = checkMove(reqbody, maplist, moveType)
+            needCheck = checkAction(reqbody, maplist, moveType, releaseBoom)
     print(f'action:{actionval},moveType={moveType},releaseBoom:{releaseBoom}')
 
     #超过其他任意一人时，算作done
@@ -108,16 +109,20 @@ def clear():
     laststate = []
     lastaction = 0
     lastscore = 0
-    for i in range(100):
-        b_s, b_a, b_r, b_ns, b_d = replay_buffer.sample(batch_size)
-        transition_dict = {
-            'states': b_s,
-            'actions': b_a,
-            'next_states': b_ns,
-            'rewards': b_r,
-            'dones': b_d
-        }
-        agent.update(transition_dict)
+    if replay_buffer.size() > 1000:
+        train_times = replay_buffer.size() % 100
+        if train_times > 100:
+            train_times = 100
+        for i in range(train_times):
+            b_s, b_a, b_r, b_ns, b_d = replay_buffer.sample(batch_size)
+            transition_dict = {
+                'states': b_s,
+                'actions': b_a,
+                'next_states': b_ns,
+                'rewards': b_r,
+                'dones': b_d
+            }
+            agent.update(transition_dict)
     return "ok"
 
 
