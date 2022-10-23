@@ -10,7 +10,10 @@ def getState(req):
     y = 0
     for maprow in maplist:
         for cell in maprow:
-            arr[y][x][0] = int(cell[:1])
+            item = int(cell[:1])
+            if item == 8:
+                item = 1
+            arr[y][x] = item
             x = x + 1
         y = y + 1
         x = 0
@@ -65,7 +68,10 @@ def getMapList(req):
     y = 0
     for maprow in maplist:
         for cell in maprow:
-            arr[y][x] = int(cell[:1])
+            item = int(cell[:1])
+            if item == 8:
+                item = 1
+            arr[y][x] = item
             x = x + 1
         y = y + 1
         x = 0
@@ -228,7 +234,7 @@ def checkBoomAttack(req, nextExplodes, moveType):
     return False
 
 #检查下一次会不会捡到道具
-def checkGetItem(req, mapList, moveType):
+def checkGetItem(req, boxMapList, moveType):
     y = int(req["slefLocationY"] / 64)
     x = int(req["slefLocationX"] / 64)
     next_x = x
@@ -243,8 +249,8 @@ def checkGetItem(req, mapList, moveType):
         next_y = y + 1
     if moveType == "STOP":
         return False
-    nextitem = int(mapList[next_y][next_x])
-    if nextitem == 3:
+    nextitem = int(boxMapList[next_y][next_x])
+    if nextitem > 0:
         return True
     return False
 
@@ -256,6 +262,8 @@ def getMoveType(req, mapList):
     MoveTypeList = ["LEFT", "TOP", "RIGHT", "DOWN"]
     y = int(req["slefLocationY"] / 64)
     x = int(req["slefLocationX"] / 64)
+    print(mapList)
+    print(req["gameMap"]["activeExplodes"])
     print(f'getMoveType, x={x}, y={y}')
     goodMoves = []
     for move in MoveTypeList:
@@ -263,6 +271,7 @@ def getMoveType(req, mapList):
             goodMoves.append(move)
     print(goodMoves)
 
+    #下回合爆炸
     goodMoves2 = []
     nextExplodes = getNextExplodes(req)
     for move in goodMoves:
@@ -272,20 +281,32 @@ def getMoveType(req, mapList):
     if len(goodMoves2) == 0:
         goodMoves2 = goodMoves
 
+    #检查道具
+    activeMagicBoxes = getMagicBoxes(req)
     goodMoves3 = []
     for move in goodMoves2:
-        if checkGetItem(req, mapList, move) == True:
+        if checkGetItem(req, activeMagicBoxes, move) == True:
             goodMoves3.append(move)
     if len(goodMoves3) == 0:
         goodMoves3 = goodMoves2
 
+    #检查踩炸弹
     goodMoves4 = []
-    explodes = getExplodes(req) * -1
+    booms = getBooms(req) * -1
     for move in goodMoves3:
-        if checkBoomAttack(req, explodes, move) == False:
+        if checkBoomAttack(req, booms, move) == False:
             goodMoves4.append(move)
     if len(goodMoves4) == 0:
         goodMoves4 = goodMoves3
+
+    #检查当前爆炸
+    goodMoves5 = []
+    explodes = getExplodes(req) * -1
+    for move in goodMoves4:
+        if checkBoomAttack(req, explodes, move) == False:
+            goodMoves5.append(move)
+    if len(goodMoves5) == 0:
+        goodMoves5 = goodMoves4
     idx = np.random.randint(0, len(goodMoves4))
     return goodMoves4[idx]
 
@@ -297,14 +318,6 @@ def getSetBoom(req, mapList, moveType):
     x = int(req["slefLocationX"] / 64)
     next_x = x
     next_y = y
-    if moveType == "LEFT":
-        next_x = x - 1
-    if moveType == "TOP":
-        next_y = y - 1
-    if moveType == "RIGHT":
-        next_x = x + 1
-    if moveType == "DOWN":
-        next_y = y + 1
 
     otheritems = []
     other_x = next_x
@@ -321,6 +334,8 @@ def getSetBoom(req, mapList, moveType):
     if other_y + 1 < rownum:
         otheritem = mapList[other_y + 1][other_x]
         otheritems.append(otheritem)
+    #左右上下
+    print(otheritems)
     gooditems = []
     for otheritem in otheritems:
         if int(otheritem) == 2:
@@ -350,6 +365,8 @@ def getAction(moveType, setBoom):
         return moveVal * 2 + 1
     else:
         return moveVal * 2
+
+
 
 
 #

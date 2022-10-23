@@ -33,7 +33,9 @@ class ReplayBuffer:
     def load(self):
         f = open("buffer.pickle", "rb")
         data = pickle.load(f)
-        self.buffer = data
+        for item in data:
+            self.buffer.append(item)
+        f.close()
 
 class Qnet(torch.nn.Module):
     ''' 只有一层隐藏层的Q网络 '''

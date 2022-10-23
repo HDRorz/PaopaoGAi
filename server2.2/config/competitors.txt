@@ -1,4 +1,4 @@
-12|偷塔圣手|http://127.0.0.1:5000/player/action
-13|勇往直前|Inner
-14|如风少年|Inner
+12|偷塔圣手|Inner
+13|勇往直前|http://127.0.0.1:5000/player/action
+14|如风少年|http://127.0.0.1:5000/player/action
 15|无敌战神|Inner

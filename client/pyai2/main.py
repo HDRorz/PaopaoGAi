@@ -15,10 +15,10 @@ MoveTypeList = ["LEFT", "TOP", "RIGHT", "DOWN", "STOP"]
 lr = 2e-3
 num_episodes = 500
 hidden_dim = 128
-gamma = 0.98
-epsilon = 0.95
+gamma = 0.9
+epsilon = 0.5
 target_update = 10
-buffer_size = 10000
+buffer_size = 199990
 minimal_size = 100
 batch_size = 64
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -34,9 +34,9 @@ agent = DQN(state_dim, hidden_dim, action_dim, lr, gamma, epsilon,
             target_update, device)
 agent.load()
 
-laststate = []
-lastaction = 0
-lastscore = 0
+laststateDict = {}
+lastactionDict = {}
+lastscoreDict = {}
 
 
 @app.route("/")
@@ -46,11 +46,16 @@ def hello_world():
 
 @app.route("/player/action", methods=['GET', 'POST'])
 def action():
-    global laststate
-    global lastaction
-    global lastscore
+    global laststateDict
+    global lastactionDict
+    global lastscoreDict
     reqbody = request.get_json()
+    selfid =str(reqbody["selfNpcId"])
     score = reqbody["myScore"]
+    laststate = laststateDict.get(selfid, [])
+    lastaction = lastactionDict.get(selfid, 0)
+    lastscore = lastscoreDict.get(selfid, 0)
+
     maplist = getMapList(reqbody)
     selfpos = getSelf(reqbody)
     booms = getBooms(reqbody)
@@ -87,7 +92,6 @@ def action():
 
     #超过其他任意一人时，算作done
     if_first = False
-    selfid = reqbody["selfNpcId"]
     activeNpcs = reqbody["gameMap"]["activeNpcs"]
     other_scores = []
     for npc in activeNpcs:
@@ -100,22 +104,22 @@ def action():
 
     if len(laststate) > 0:
         replay_buffer.add(laststate, lastaction, score - lastscore, state, if_first)
-    laststate = state
-    lastaction = action
-    lastscore = score
+    laststateDict[selfid] = state
+    lastactionDict[selfid] = action
+    lastscoreDict[selfid] = score
     return {"moveType": moveType, "releaseBoom": releaseBoom}
 
 
 @app.route("/clear")
 def clear():
-    global laststate
-    global lastaction
-    global lastscore
-    laststate = []
-    lastaction = 0
-    lastscore = 0
+    global laststateDict
+    global lastactionDict
+    global lastscoreDict
+    laststateDict = {}
+    lastactionDict = {}
+    lastscoreDict = {}
     if replay_buffer.size() > 1000:
-        train_times = replay_buffer.size() % 100
+        train_times = replay_buffer.size() / 100
         if train_times > 100:
             train_times = 100
         for i in range(train_times):
@@ -139,6 +143,8 @@ def save():
 
 @app.route("/setRandRate/<value>")
 def setRandRate(value):
+    global epsilon
+    epsilon = float(value)
     agent.epsilon = float(value)
     return str(type(agent.epsilon))
 
